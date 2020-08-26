@@ -1,0 +1,48 @@
+---
+title: "louisvilleky scooter trips analysis"
+author: "Orhan Aktaş"
+date: "13 08 2020"
+output:
+  html_document:
+    theme: flatly
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  #fig.width=12, 
+  #fig.height=8, 
+  #fig.path='Figs/',
+  echo=FALSE, 
+  message=FALSE, 
+  warning=FALSE)
+```
+
+## R Markdown
+
+Bu dökümanda Amerika Birleşik Devtleri, Kentucky eyalatinin en büyük şehri Louisville'de yapılan scooter işletmesinin datası analiz edilmiştir. Bu veri hakkında daha fazla bilgi için şu sayfayı inceleyebilirsiniz: <https://data.louisvilleky.gov/dataset/dockless-vehicles>.
+
+```{r get_data}
+library(tidyverse)
+link<-"https://data.louisvilleky.gov/sites/default/files/27211/lou-ky-fuzzed-trips-opendata"
+data<-read_csv(link)
+head(data)
+```
+
+Önce günlere göre **toplam yolculuk** sayısına bir bakalım.
+
+```{r days}
+data%>%group_by(StartDate)%>%summarise(rides=n())%>%ggplot(aes(x=StartDate,y=rides))+geom_line()
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
